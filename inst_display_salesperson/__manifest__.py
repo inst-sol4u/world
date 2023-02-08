@@ -9,8 +9,7 @@
     "description": """
     The following features are available:
 
-    - Add salesperson to account.payment model to display the salesperson assigned to the
-    customer in the payment record
+    - Add salesperson to account.payment model to display the salesperson assigned to the customer in the payment record
     """,
     "author": "Instant Solutions 4 You",
     "website" : "https://inst-sol4u.com",
