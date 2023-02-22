@@ -18,4 +18,6 @@ class SaleOrderLine(models.Model):
                     "salesperson_id": line.order_id.user_id.id,
                     "company_id": line.company_id.id,
                 })
+                for analytic_id in distribution:
+                    line.order_id.write({'analytic_account_id': int(analytic_id)})
                 line.analytic_distribution = distribution or line.analytic_distribution
