@@ -11,8 +11,8 @@
                     <main class="body" style="height: 270px;">
                         <div>
                             <t t-if="props.modifiers_list">
-                                <t t-foreach='props.modifiers_list' t-as='wv_uom' t-key="wv_uom">
-                                    <div class="button" t-on-click="multi_uom_button" t-att-data-uom_id="wv_uom.multi_uom_id[0]" t-att-data-price="wv_uom.price"><t t-esc="env.pos.format_currency(wv_uom.price)"/>/<t t-esc="wv_uom.multi_uom_id[1]"/></div>
+                                <t t-foreach='props.modifiers_list' t-as='wv_uom' t-key="wv_uom.id">
+                                    <div style="min-width: 110px;width: auto;" class="button" t-on-click="multi_uom_button" t-att-data-uom_id="wv_uom.multi_uom_id[0]" t-att-data-price="wv_uom.price"><t t-esc="env.pos.format_currency(wv_uom.price)"/>/<t t-esc="wv_uom.multi_uom_id[1]"/></div>
                                 </t>
                             </t>
                         </div>
