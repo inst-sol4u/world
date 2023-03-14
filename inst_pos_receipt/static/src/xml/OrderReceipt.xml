@@ -30,6 +30,18 @@
             <img class="pos-receipt-logo oe_hidden" t-att-src="receipt.company.logo" alt="Logo"/>
         </xpath>
 
+        <xpath expr="//img[@id='qrcode']" position="after">
+            <div class="pos-receipt-order-data-new">
+                <div><t t-esc="receipt.name" /></div>
+                <t t-if="receipt.date.localestring">
+                    <div><t t-esc="receipt.date.localestring" /></div>
+                </t>
+                <t t-else="">
+                    <div><t t-esc="receipt.date.validation_date" /></div>
+                </t>
+            </div>
+        </xpath>
+
         <xpath expr="//span[@id='title_english']" position="replace">
             <t t-if="!receipt.is_settlement">
                 <span id="title_english">Tax Invoice</span>
@@ -85,6 +97,13 @@
             <div class="orderlines">
                 <t t-call="OrderLinesReceiptNew"/>
             </div>
+            <t t-foreach="receipt.paymentlines" t-as="line" t-key="line.cid">
+                <div>
+                    <br/>
+                    نوع الدفع: <t t-esc="line.name" />
+                    <!-- <span t-esc="env.pos.format_currency_no_symbol(line.amount)" class="pos-receipt-right-align"/> -->
+                </div>
+            </t>
             <t t-if="isTaxIncluded">
                 <!-- <t t-foreach="receipt.tax_details" t-as="tax" t-key="tax.name">
                     <div>
@@ -94,15 +113,13 @@
                 </t> -->
                 <div>
                     <br/>
-                    Total Taxes
-                    <span t-esc="env.pos.format_currency_no_symbol(receipt.total_tax)" class="pos-receipt-right-align"/>
+                    الإجمالي غير شامل الضريبة
+                    <span t-esc="env.pos.format_currency_no_symbol(receipt.total_with_tax - receipt.total_tax)" class="pos-receipt-right-align"/>
                 </div>
-            </t>
-            <t t-foreach="receipt.paymentlines" t-as="line" t-key="line.cid">
                 <div>
                     <br/>
-                    نوع الدفع: <t t-esc="line.name" />
-                    <!-- <span t-esc="env.pos.format_currency_no_symbol(line.amount)" class="pos-receipt-right-align"/> -->
+                    Total Taxes
+                    <span t-esc="env.pos.format_currency_no_symbol(receipt.total_tax)" class="pos-receipt-right-align"/>
                 </div>
             </t>
         </xpath>
@@ -150,9 +167,9 @@
                     <t t-esc="Math.round(line.quantity * Math.pow(10, env.pos.dp['Product Unit of Measure'])) / Math.pow(10, env.pos.dp['Product Unit of Measure'])"/>
                     <t t-if="!line.is_in_unit" t-esc="line.unit_name" />
                     x
-                    <t t-esc="env.pos.format_currency(line.price_display_one)" />
+                    <t t-esc="env.pos.format_currency(line.price_display_one_without_tax)" />
                     <span class="price_display pos-receipt-right-align">
-                        <t t-esc="env.pos.format_currency_no_symbol(line.price_display)" />
+                        <t t-esc="env.pos.format_currency_no_symbol(line.price_without_tax)" />
                     </span>
                 </div>
             </t>
